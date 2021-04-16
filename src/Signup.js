@@ -59,6 +59,8 @@ class Signup extends Component{
         this.user.name =event.target.value
     }
 
+    
+
     register = () =>{
         if(!this.user.email || !this.user.password || !this.user.name){
             this.setState({

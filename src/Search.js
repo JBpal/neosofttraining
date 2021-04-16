@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react';
 function Search(props){
   console.log("sdfsefserse..............", props)
 let [cakeresult, setCakes] = useState([])
-let searchcakesapi = "http://apibyashu.herokuapp.com/api/searchcakes"+props.location.search
+let searchcakesapi = "https://apibyashu.herokuapp.com/api/searchcakes"+props.location.search
 useEffect(()=>{
   axios({
     method:"get",
