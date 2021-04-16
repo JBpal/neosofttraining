@@ -30,7 +30,7 @@ var [com,setCom]=useState({});
       <div>
         <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/login" exact component={Login} />
+        <Route path="/login" exact><Login islogin={login} setlogin={setLogin}/></Route>
         <Route path="/signup" exact component={Signup} />
         <Route path="/search" exact component={Search} />
         <Route path="/cake/:cakeid" exact component={CakeDetails} />

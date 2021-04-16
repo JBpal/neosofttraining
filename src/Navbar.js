@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import {useState} from 'react';
+
 
 function Navbar(props) {
 
@@ -20,6 +21,7 @@ function Navbar(props) {
 
 let onLogout=()=>{
     props.setlogin(false)
+    props.history.push("/login")
 }
 
 let getCakeid = (event)=>{
@@ -60,15 +62,15 @@ let getCakeid = (event)=>{
     <form className="form-inline my-2 my-lg-0">
       <input className="form-control mr-sm-2" onChange={getCakeid} type="search" placeholder="Search" aria-label="Search" />
       <Link to={`/search?q=${searchquery}`}><button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></Link>
-    
+      </form>
     {props.islogin ? <div><button onClick={onLogout} className="btn btn-primary">Logout</button>
     </div>:<div>
-    <Link to="/login"><button onClick={onLogin} className="btn btn-primary">Login</button></Link></div>}
-    </form>
+    <Link to="/login"><button className="btn btn-primary">Login</button></Link></div>}
+    
   </div>
 </nav>
 
   )
 }
 
-export default Navbar;
+export default withRouter(Navbar);

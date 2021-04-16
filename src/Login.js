@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {useState, useEffect} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 function Login(props){
     console.log(".............props for login", props)
@@ -89,4 +89,4 @@ function Login(props){
     )
 }
 
-export default Login
+export default withRouter(Login)

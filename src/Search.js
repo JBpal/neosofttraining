@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useEffect, useState} from 'react';
 
 function Search(props){
-  console.log("sdfsefserse", props)
+  console.log("sdfsefserse..............", props)
 let [cakeresult, setCakes] = useState([])
 let searchcakesapi = "http://apibyashu.herokuapp.com/api/searchcakes"+props.location.search
 useEffect(()=>{

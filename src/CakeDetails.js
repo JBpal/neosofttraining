@@ -25,7 +25,7 @@ function CakeDetails(){
             <div className="card mb-5" style={{"max-width":"600px"}}>
             <div className="row g-0">
                 <div className="col-md-4">
-                <img src={cakedetails.image} alt="..."/>
+                <img src={cakedetails.image} width="200px" height="300px" alt="..."/>
                 </div>
                 <div className="col-md-8">
                 <div className="card-body">
