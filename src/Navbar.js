@@ -1,71 +1,116 @@
 import { Link, withRouter } from "react-router-dom";
-import {useState} from 'react';
+import {faSearch, faShoppingCart} from '@fortawesome/free-solid-svg-icons'
+import {useState, useEffect} from 'react';
+import {connect} from 'react-redux'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from 'axios'
+
 
 
 function Navbar(props) {
-
+  console.log("login detail ",props)
   let [searchquery, setSearchquery] = useState()
 
   var counter=0;
-  let url ="";
+
+  let search=function(event){
+    event.preventDefault();
+    let url="/search?searchtext=" + document.getElementById('txtSearch').value;
+    console.log("url " + url)
+    props.history.push(url)
+  }
+
+
+  useEffect(() =>{
+    var token = localStorage.token
+        axios({
+          method:'post',
+          url:'https://apibyashu.herokuapp.com/api/cakecart',
+          headers:{
+            authtoken:token
+          }
+        }).then((response)=>{
+          console.log("response from cakecart", response)
+
+          props.dispatch({
+            type:"CART",
+            payload:response.data.data
+        })
+
+        props.dispatch({
+          type:"UPDATE_CART",
+          payload:true
+      })
+    
+        }, (error)=>{
+      console.log("error from get user details api", error)
+        })
+      },[props?.updatecart])
+
+  /* let url ="";
    function search(event){
     event.preventDefault()
     counter++;
     console.log(counter)
     console.log("search ",event)
-  }
+  } */
   
-  let onLogin=()=>{
+  /* let onLogin=()=>{
     props.setlogin(true)
+    //props.history.push("/")
 }
 
 let onLogout=()=>{
-    props.setlogin(false)
+  //console.log(props.islogin)
+  console.log("this is only a test", props.islogin)
+    //props.setlogin(false)
+    localStorage.clear()
     props.history.push("/login")
-}
+} */
 
-let getCakeid = (event)=>{
-  console.log(event.target.value)
-  setSearchquery(event.target.value)
-  //this.user.name =event.target.value
+var logout = (event)=>{
+  event.preventDefault()
+  props.dispatch({
+    type:"LOGOUT"
+
+  })
 }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-  <Link to="/"><a className="navbar-brand">My Cakeshop</a></Link>
+  <Link to="/"><a className="navbar-brand">My Cakeshop</a></Link> <br />
+  
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon" />
   </button>
   <div className="collapse navbar-collapse" id="navbarSupportedContent">
     <ul className="navbar-nav mr-auto">
-     {/*  <li className="nav-item active">
-        <a className="nav-link" href={url}>Home <span className="sr-only">(current)</span></a>
-      </li>
+     
       <li className="nav-item">
-        <a className="nav-link" href={url}>Link</a>
-      </li> */}
-      <li className="nav-item dropdown">
-        <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a className="dropdown-item" href={url}>Action</a>
-          <a className="dropdown-item" href={url}>Another action</a>
-          <div className="dropdown-divider" />
-          <a className="dropdown-item" href={url}>Something else here</a>
-        </div>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link disabled" href={url} tabIndex={-1} aria-disabled="true">Disabled</a>
+        {props.user && <a className="nav-link"  tabIndex={-1} aria-disabled="true">
+        Welcome {props.user}
+        </a>}
       </li>
     </ul>
     <form className="form-inline my-2 my-lg-0">
-      <input className="form-control mr-sm-2" onChange={getCakeid} type="search" placeholder="Search" aria-label="Search" />
-      <Link to={`/search?q=${searchquery}`}><button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></Link>
+      <input className="form-control mr-sm-2" id="txtSearch" type="search" placeholder="Search" aria-label="Search" ></input>
+      <button onClick={search} className="btn btn-outline-primary my-2 my-sm-0" type="submit"><FontAwesomeIcon icon={faSearch} /></button>
+      
       </form>
-    {props.islogin ? <div><button onClick={onLogout} className="btn btn-primary">Logout</button>
+      
+      {props.loginstatus ? <div>
+        <Link to="/cart" className="btn btn-warning my-2 my-sm-0" type="submit"><FontAwesomeIcon icon={faShoppingCart} />
+        <span class="price">
+          <i class="fa fa-shopping-cart"></i>
+          <b>{props?.cart?.data?.length}</b>
+        </span>
+        </Link>
+        
+        <button onClick={logout} className="btn btn-danger">Logout</button>
     </div>:<div>
     <Link to="/login"><button className="btn btn-primary">Login</button></Link></div>}
+
+    
     
   </div>
 </nav>
@@ -73,4 +118,15 @@ let getCakeid = (event)=>{
   )
 }
 
-export default withRouter(Navbar);
+Navbar=withRouter(Navbar)
+//mapstatetoprops
+export default connect(function(state,props){
+  console.log("....... state initialy", state)
+  return {
+    user:state?.user?.name,
+    cart:state?.cart,
+    updatecart: state?.updatecart,
+    //if state then search user in state, if user then search name in user
+    loginstatus:state?.isloggedin
+  }
+})(Navbar)

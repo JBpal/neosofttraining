@@ -1,11 +1,18 @@
 import Cake from './Cake';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
+import queryString from "query-string";
+import {useLocation} from "react-router-dom"
 
 function Search(props){
-  console.log("sdfsefserse..............", props)
+  //var location = useLocation()
+  console.log("....use location", useLocation)
+
+  const parsed = queryString.parse(props.location.search);
+    console.log("parsed " , parsed);
+
 let [cakeresult, setCakes] = useState([])
-let searchcakesapi = "https://apibyashu.herokuapp.com/api/searchcakes"+props.location.search
+let searchcakesapi = "https://apibyashu.herokuapp.com/api/searchcakes?q="+parsed.searchtext
 useEffect(()=>{
   axios({
     method:"get",
@@ -16,7 +23,7 @@ useEffect(()=>{
   },(error)=>{
     console.log("error from search cakes api", error)
   })
-},[searchcakesapi])
+},[props.location.search])
 
 return (
     <div className="container">

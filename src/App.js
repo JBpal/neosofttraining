@@ -5,69 +5,71 @@ import Navbar from './Navbar';
 /* import cakes from './cakedata';
 import Cake from './Cake'; */
 import Login from './Login';
-import {useState} from 'react';
+
 import CakeDetails from './CakeDetails';
 import Signup from './Signup';
-
+/* import {useState} from 'react';
 import Carousel from './Carousel';
-import Search from './Search';
 import Pagenotfound from './Pagenotfound';
-import {BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import store from './reduxstore/store'; */
+import Search from './Search';
 
-function App() {
-  var [login,setLogin]=useState(false);
-var [show,setShow]=useState(false);
-var [com,setCom]=useState({});
-  let showDetails=(data)=>{
-    setShow(true)
-    setCom(data)
-}
+import {BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import axios from "axios"
+import { connect } from 'react-redux';
+import Cart from './Cart';
+import Checkout from './Checkout';
+
+
+
+
+
+function App(props) {
+
+  if(localStorage.token && !props.user){
+    var token = localStorage.token
+    console.log("Mean user is already logged in")
+    axios({
+      method:'get',
+      url:'https://apibyashu.herokuapp.com/api/getuserdetails',
+      headers:{
+        authtoken:token
+      }
+    }).then((response)=>{
+      console.log("response from get user details api", response)
+
+      props.dispatch({
+        type:"INITIALISE_USER",
+        payload:response.data.data
+    })
+
+    }, (error)=>{
+  console.log("error from get user details api", error)
+    })
+  }
+
   return (
   <div className="app">
     
     <Router>
-    <Navbar islogin={login} setlogin={setLogin} />
+    <Navbar />
       <div>
         <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/login" exact><Login islogin={login} setlogin={setLogin}/></Route>
+        <Route path="/login" exact><Login /></Route>
         <Route path="/signup" exact component={Signup} />
         <Route path="/search" exact component={Search} />
+        <Route path="/cart" exact component={Cart} />
+        <Route path="/checkout" component={Checkout}></Route>
+        {/* {store.isloggedin? <Route path="/checkout" component={Checkout}></Route>: ''} */}
         <Route path="/cake/:cakeid" exact component={CakeDetails} />
         <Route path="/*">
-          <Redirect to="/Pagenotfound"></Redirect>
+        <Redirect to="/Pagenotfound"></Redirect>
         </Route>
         </Switch>
       </div>
     </Router>
 
-
-
-    {/* <Navbar islogin={login} setlogin={setLogin} />
-    <Carousel />
-    <Signup></Signup>
-    <Login islogin={login} setlogin={setLogin}/>
-    <Search />
-    <Home /> */}
-    
-    {/* {show?<CakeDetails  cdata={com}/>:''} */}
-    {/* <div className="row">
-        
-        {cakes.length>0 && cakes.map((each,index)=>{
-          return(<Cake cake={each} showdetails={showDetails} cakedata={each} key={index}/>)
-        })}
-      
-     </div> */}
-      {/* let apiUrl = "https://apibyashu.herokuapp.com/api/allcakes"
-    console.log(apiUrl);
-       axios({
-           method:"get",
-           url:apiUrl,
-       }).then((response)=>{
-        console.log("response form signup api",response.data);
-       },(error)=>{
-        console.log("Error form aignup api",error)
-       }) */}
    
   </div>
     
@@ -77,4 +79,9 @@ var [com,setCom]=useState({});
   );
 }
 
-export default App;
+//export default App;
+export default connect(function(state,props){
+  return{
+    user:state?.user
+  }
+})( App);

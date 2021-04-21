@@ -11,7 +11,7 @@ import {useEffect, useState} from 'react';
 
 function Home(){
 let [cakes, setCakes] = useState([])
-let allcakesapi = "http://apibyashu.herokuapp.com/api/allcakes"
+let allcakesapi = "https://apibyashu.herokuapp.com/api/allcakes"
 useEffect(()=>{
   axios({
     method:"get",

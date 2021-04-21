@@ -1,13 +1,14 @@
 import axios from 'axios'
 import {useState, useEffect} from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import {connect, Connect} from "react-redux"
 
-function Login(props){
+function Login(props){  
     console.log(".............props for login", props)
-    // useEffect(()=>{
-    //     alert('Mounted and Updated')
-    // },[])
-    var [error,setError]=useState('')
+    useEffect(()=>{
+     },[])
+    var user = {}
+    var [error,setError]=useState()
    
     var [user, setUser]=useState({})
     let getEmail=(event)=>{
@@ -28,7 +29,7 @@ function Login(props){
 
     let login=function(){
        
-    if(!user.email && !user.password)
+    if(!user.email || !user.password)
        {
         setError("Please enter valid credentials")
         
@@ -46,14 +47,25 @@ function Login(props){
             if(response.data.token){
                 localStorage.token = response.data.token
                 localStorage.email = response.data.email
+
+                //below code will go to dispatch
+                props.dispatch({
+                    type:"LOGIN",
+                    payload:response.data
+                })
+                //above code will go to dispatch
+                
                 props.history.push("/")
+            }
+            else{
+                setError("Invalid credentials")
             }
 
            },(error)=>{
             console.log("Error form aignup api",error)
            })
        // console.log(user)
-       props.setlogin(true)
+       //props.setlogin(true)
         //props.islogin(true)
        // setError("")
        }
@@ -88,5 +100,6 @@ function Login(props){
         </div>
     )
 }
-
-export default withRouter(Login)
+Login = withRouter(Login)
+export default connect()(Login)
+//above line added props to login component known as dispatch
