@@ -12,6 +12,9 @@ function Address(){
     var errors={}
     var nameval=elements.name.value
     var phoneval=elements.phone.value
+    var addressval=elements.address.value
+    var cityval=elements.city.value
+    var pincodeval=elements.pincode.value
 
     console.log("elements recieved for validation", elements, elements.name)
     if(!nameval){
@@ -28,16 +31,16 @@ function Address(){
       errors.phone="Enter valid phone number"
     }
 
-    if(!elements.address.value){
+    if(!addressval){
       errors.address="Address is required"
     }
-    if(!elements.city.value){
+    if(!cityval){
       errors.city="City is required"
     }
-    if(!elements.pincode.value){
+    if(!pincodeval){
       errors.pincode="Pincode is required"
     }
-    if(elements.pincode.value && elements.pincode.value.match(/^[a-zA-Z]+$/)){
+    if(pincodeval && pincodeval.match(/^[a-zA-Z]+$/)){
       errors.pincode="Wrong pincode entered"
     }
     

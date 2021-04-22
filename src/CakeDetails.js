@@ -12,7 +12,7 @@ function CakeDetails(props){
   
 //to add data to cart
 let addtoCake = (cakedetails) =>{
-    console.log("cake details...",cakedetails)
+    console.log("cake details...",cakedetails) 
 
     var token = localStorage.token
         let addcakeapi="https://apibyashu.herokuapp.com/api/addcaketocart/"

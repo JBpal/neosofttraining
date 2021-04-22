@@ -1,15 +1,13 @@
 import { Link, withRouter } from "react-router-dom";
 import {faSearch, faShoppingCart} from '@fortawesome/free-solid-svg-icons'
 import {useState, useEffect} from 'react';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from 'axios'
+import axios from 'axios';
 
-
-
-function Navbar(props) {
+function Navbar(props){
   console.log("login detail ",props)
-  let [searchquery, setSearchquery] = useState()
+let [searchquery, setSearchquery] = useState()
 
   var counter=0;
 
