@@ -12,10 +12,42 @@ class Signup extends Component{
     }
     user = {}
 
-    /* getEmail = (event) => {
+    register=()=>{
+      
+        if(!this.user.email && !this.user.password)
+        {
+         this.setState({
+             errorMessage:"Please enter valid credentials"
+         })
+         
+        }else{
+             let apiurl = "https://apibyashu.herokuapp.com/api/register"
+             axios({
+                 url:apiurl,
+                 method:"post",
+                 data:this.user
+             }).then((response)=>{
+                 console.log("response from signup api", response.data) 
+             },(error)=>{
+                 console.log("error from signup api", error)
+             })
+         //console.log(this.user)
+         /* this.setState({
+             errorMessage:""
+         }) */
+        }
+     }
+
+    getEmail = (event) => {
         this.user.email = event.target.value
        // console.log("event Value",event.target.value)
     }
+
+    // goOnline = () => {
+    //     this.setState({
+    //         onlineUsers :this.state.onlineUsers+1
+    //     })
+    // }
 
     getPassword = (event)=>{
         event.preventDefault();
@@ -25,7 +57,7 @@ class Signup extends Component{
     getname = (event)=>{
        // event.preventDefault();
         this.user.name =event.target.value
-    } */
+    }
 
     
 
@@ -56,15 +88,15 @@ class Signup extends Component{
             <div style={{width:"50%",margin:"auto"}}>
                 <div className="form-group">
                     <label>Email</label>
-                    <input type="email" className="form-control" ></input>
+                    <input type="email" className="form-control" onChange={this.getEmail} name="email"></input>
                 </div>
                 <div className="form-group">
                     <label>name</label>
-                    <input type="text" className="form-control" ></input>
+                    <input type="text" className="form-control" onChange={this.getname} name="name"></input>
                 </div>
                 <div className="form-group">
                     <label>password</label>
-                    <input type="password" className="form-control" ></input>
+                    <input type="password" className="form-control" onChange={this.getPassword} name="password"></input>
                 </div>
                 <div style={{color:"red"}}>
                     {this.state.errorMessage}
