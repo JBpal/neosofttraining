@@ -12,53 +12,6 @@ class Signup extends Component{
     }
     user = {}
 
-    register=()=>{
-      
-        if(!this.user.email && !this.user.password)
-        {
-         this.setState({
-             errorMessage:"Please enter valid credentials"
-         })
-         
-        }else{
-             let apiurl = "https://apibyashu.herokuapp.com/api/register"
-             axios({
-                 url:apiurl,
-                 method:"post",
-                 data:this.user
-             }).then((response)=>{
-                 console.log("response from signup api", response.data) 
-             },(error)=>{
-                 console.log("error from signup api", error)
-             })
-         //console.log(this.user)
-         /* this.setState({
-             errorMessage:""
-         }) */
-        }
-     }
-
-    getEmail = (event) => {
-        this.user.email = event.target.value
-       // console.log("event Value",event.target.value)
-    }
-
-    // goOnline = () => {
-    //     this.setState({
-    //         onlineUsers :this.state.onlineUsers+1
-    //     })
-    // }
-
-    getPassword = (event)=>{
-        event.preventDefault();
-        this.user.password =event.target.value
-    }
-
-    getname = (event)=>{
-       // event.preventDefault();
-        this.user.name =event.target.value
-    }
-
     
 
     register = () =>{
