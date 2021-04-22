@@ -9,7 +9,7 @@ function CartSummary(props){
     //console.log("this is url ",url)
     //var path = route.path
 
-    let setTotal = props?.cart?.data.reduce((sum, {price})=>sum+price,0)
+    let setTotal = props?.cart?.data?.reduce((sum, {price})=>sum+price,0)
     return(
         <div class="cart_section">
      <div class="container-fluid">

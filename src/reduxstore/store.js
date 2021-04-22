@@ -1,4 +1,6 @@
 //import { getMaxListeners } from 'node:process'
-import {createStore} from 'redux'
+import {applyMiddleware, createStore} from 'redux'
 import demo from "./reducers"
-export default createStore(demo)
+import {logger} from "./middlewares"
+var middlewares = applyMiddleware(logger)
+export default createStore(demo, middlewares)

@@ -9,6 +9,7 @@ import axios from 'axios'
 
 function CakeDetails(props){
 
+  
 //to add data to cart
 let addtoCake = (cakedetails) =>{
     console.log("cake details...",cakedetails)
@@ -93,6 +94,12 @@ let addtoCake = (cakedetails) =>{
 
 export default connect(function(state,props)
 {
-
+    return {
+        /* user:state?.user?.name,
+        cart:state?.cart,
+        updatecart: state?.updatecart, */
+        //if state then search user in state, if user then search name in user
+        loginstatus:state?.isloggedin
+      }
 }
 )(CakeDetails)

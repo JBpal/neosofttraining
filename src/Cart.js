@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom'
 function Cart(props){
     
  //let [total, setTotal] = useState(0)
- let setTotal = props?.cart?.data.reduce((sum, {price})=>sum+price,0)
+ let setTotal = props?.cart?.data?.reduce((sum, {price})=>sum+price,0)
 
     //console.log("need to check total", total)
 
@@ -56,7 +56,7 @@ function Cart(props){
 
                         <table className="table table-bordered">
 
-                            {props?.cart?.data?.length>0 && props?.cart?.data.map((each)=>{
+                            {props?.cart?.data?.length>0 && props?.cart?.data?.map((each)=>{
                             return(
                             <tr>
                                 <td><img src={each.image} alt="" width="50px" height="50px" /></td>
@@ -114,6 +114,7 @@ export default connect(function(state,props)
     return{
         cart:state?.cart,
         user:state?.user?.email
+        
     }
 }
 )(Cart)

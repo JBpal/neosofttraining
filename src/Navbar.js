@@ -74,6 +74,7 @@ var logout = (event)=>{
     type:"LOGOUT"
 
   })
+  props.history.push("/")
 }
 
   return (

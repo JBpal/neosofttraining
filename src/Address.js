@@ -10,18 +10,21 @@ function Address(){
   var [formerrors, setFormerrors] = useState({})
   var validate = function(elements){
     var errors={}
+    var nameval=elements.name.value
+    var phoneval=elements.phone.value
+
     console.log("elements recieved for validation", elements, elements.name)
-    if(!elements.name.value){
+    if(!nameval){
       errors.name="Name is required"
     }
-    if(elements.name.value && !elements.name.value.match(/^[a-zA-Z]+$/)){
+    if(nameval && !nameval.match(/^[a-zA-Z]+$/)){
       errors.name="Only letters required"
     }
 
-    if(!elements.phone.value){
+    if(!phoneval){
       errors.phone="Phone is required"
     }
-    if(elements.phone.value && !isNaN(elements.phone.value) && (elements.phone.value.length>10 || elements.phone.value.length<10)){
+    if(phoneval && (phoneval.length>10 || phoneval.length<10 || phoneval.match(/^[a-zA-Z]+$/))){
       errors.phone="Enter valid phone number"
     }
 
