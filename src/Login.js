@@ -33,19 +33,19 @@ function Login(props){
    
     var [user, setUser]=useState({})
     let getEmail=(event)=>{
-        /* setUser({
+        setUser({
             ...user,
             email:event.target.value
-        }) */
-        user.email=event.target.value;
+        })
+        //user.email=event.target.value;
     }
 
     let getPassword=(event)=>{
-        /* setUser({
+        setUser({
             ...user,
             password:event.target.value
-        }) */
-        user.password=event.target.value;
+        })
+        //user.password=event.target.value;
     }
 
     let login=function(){
@@ -115,7 +115,7 @@ function Login(props){
                         {error}
                     </div>
                     </form>
-                    <div style={{float:'right'}}>
+                    <div style={{"float":"right"}}>
                         <Link to="/forgot">Forgot Password ?</Link>
                     </div>
                     <div>

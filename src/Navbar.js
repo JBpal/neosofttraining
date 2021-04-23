@@ -43,7 +43,7 @@ let [searchquery, setSearchquery] = useState()
         }, (error)=>{
       console.log("error from get user details api", error)
         })
-      },[props?.updatecart])
+      },[props?.updatecart, props?.cart?.data?.length])
 
   /* let url ="";
    function search(event){

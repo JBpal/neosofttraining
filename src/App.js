@@ -19,6 +19,8 @@ import axios from "axios"
 import { connect } from 'react-redux';
 import Cart from './Cart';
 import Checkout from './Checkout';
+//import Test from './Forgot';
+import Forgot from './Forgot';
 
 
 
@@ -58,11 +60,13 @@ function App(props) {
         <Route path="/" exact component={Home} />
         <Route path="/login" exact><Login /></Route>
         <Route path="/signup" exact component={Signup} />
+        <Route path="/forgot" exact component={Forgot} />
         <Route path="/search" exact component={Search} />
         <Route path="/cart" exact component={Cart} />
         <Route path="/checkout" component={Checkout}></Route>
         {/* {store.isloggedin? <Route path="/checkout" component={Checkout}></Route>: ''} */}
         <Route path="/cake/:cakeid" exact component={CakeDetails} />
+        
         <Route path="/*">
         <Redirect to="/Pagenotfound"></Redirect>
         </Route>
