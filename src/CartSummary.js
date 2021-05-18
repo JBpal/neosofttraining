@@ -4,10 +4,22 @@ import {Link} from 'react-router-dom';
 import { useRouteMatch } from "react-router";
 function CartSummary(props){
 
+    if(!props?.loginstatus){
+        props.history.push("/login")
+    }
+
     var route = useRouteMatch()
     var url = route.url
     //console.log("this is url ",url)
     //var path = route.path
+    let setCounter = function(){
+        props.dispatch({
+          type : "ADD_COUNTER",
+          counter : 2,
+          payload : false
+        })
+        props.history.push("/checkout/address")
+      }
 
     let setTotal = props?.cart?.data?.reduce((sum, {price})=>sum+price,0)
     return(
@@ -50,6 +62,7 @@ function CartSummary(props){
                                 <td>{setTotal}</td>
                             </tr>
                         </table>
+                        
                          
                        </div>
 
@@ -59,7 +72,9 @@ function CartSummary(props){
                      <div class="row">
                         <div className="col-sm-10"></div>
                         <div className="col-sm-2">
-                        <Link to={url+"/address"}><button type="button" class="button cart_button_checkout btn btn-primary">NEXT</button></Link>
+                        {!props?.updatecounter &&
+            <button class="cart_button_checkout btn btn-outline-primary" onClick={setCounter}>Next</button> }
+                        {/* <Link to={url+"/address"}><button type="button" class="button cart_button_checkout btn btn-primary">NEXT</button></Link> */}
                         </div>
                     </div>
                      
@@ -78,7 +93,8 @@ export default connect(function(state,props)
 {
     return{
         cart:state?.cart,
-        //user:state?.user?.email
+        loginstatus: state["isloggedin"],
+        updatecounter:state?.updatecounter
     }
 }
 )(CartSummary)

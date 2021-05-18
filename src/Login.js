@@ -2,8 +2,13 @@ import axios from 'axios'
 import {useState} from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import {connect} from "react-redux"
+import {loginUser} from "./reduxstore/thunk"
 
-function Login(props){  
+function Login(props){ 
+    
+    if(props?.loginstatus==true){
+        props.history.push("/")
+    }
     
     var [formErrors , SetformErrors] = useState({})
     var validateLogin = function(elements){
@@ -49,22 +54,36 @@ function Login(props){
     }
 
     let login=function(){
-    
+        
         var form = document.getElementById('loginform');
         var errors = validateLogin(form.elements)
         if(errors){
              SetformErrors(errors)
         }else{
          SetformErrors({})
-        console.log(user);
+    
+        props.dispatch(loginUser(user)  /* {
+            type:"LOGIN",
+            payload:user
+        } */)
+        //props.history.push("/")
+    }
+
+        /* var form = document.getElementById('loginform');
+        var errors = validateLogin(form.elements)
+        if(errors){
+             SetformErrors(errors)
+        }else{
+         SetformErrors({})
+        //console.log(user);
         let apiUrl = "https://apibyashu.herokuapp.com/api/login"
-        console.log(apiUrl);
+        //console.log(apiUrl);
            axios({
                method:"post",
                url:apiUrl,
                data:user
            }).then((response)=>{
-            console.log("response form signup api",response.data);
+            //console.log("response form signup api",response.data);
 
             if(response.data.token){
                 localStorage.token = response.data.token
@@ -86,15 +105,11 @@ function Login(props){
            },(error)=>{
             console.log("Error frorm signup api",error)
            })
-       // console.log(user)
-       //props.setlogin(true)
-        //props.islogin(true)
-       // setError("")
-       }
+       } */
     }
     return(
         <div>
-            {!props.islogin?<><h3 className="text-center">Login</h3>
+            {/* {!props.islogin? */}<><h3 className="text-center">Login</h3>
             <div style={{"width":"50%", "margin":"auto"}}>
                 <form id="loginform">
                     <div className="form-group">
@@ -111,9 +126,9 @@ function Login(props){
                         {formErrors?.password && <div> {formErrors.password}</div> }
                     </div>    
                     </div>
-                    <div className="text-danger" style={{color:"red"}}>
-                        {error}
-                    </div>
+                    {props.error && <div className="text-danger" style={{color:"red"}}>
+                        Invalid Credentials
+                    </div> }
                     </form>
                     <div style={{"float":"right"}}>
                         <Link to="/forgot">Forgot Password ?</Link>
@@ -123,11 +138,19 @@ function Login(props){
                     </div>
                     
                     <button className="btn btn-primary" onClick={login}>Login</button>
-                </div></>:''}
+                </div></>{/* :''} */}
             
         </div>
     )
 }
 Login = withRouter(Login)
-export default connect()(Login)
+export default connect((state, props)=>{
+    console.log("state of store in login component", state)
+    return{
+        //user: state?.user?.name,
+        //loginstatus: state?.isloggedin,
+        loginstatus: state["isloggedin"],
+        error:state["isloginerror"]
+    }
+})(Login)
 //above line added props to login component known as dispatch

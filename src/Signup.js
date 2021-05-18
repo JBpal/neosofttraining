@@ -6,7 +6,7 @@ import axios from "axios";
 
 function Signup(){
 
-    var signupdata = {}
+    //var signupdata = {}
     var [signupdata, setSignupdata]=useState({})
 
     let getEmail=(event)=>{
@@ -77,7 +77,7 @@ function Signup(){
         }else{
          SetformErrors({})
          console.log("checking siginup error", signupdata);
-            let apiUrl = "https://apibyashu.herokuapp.com/api/register"
+            let apiUrl = process.env.REACT_APP_BASE_URL + "register"
          axios({
                 url:apiUrl,
                 method:"post",

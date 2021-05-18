@@ -8,6 +8,7 @@ import Login from './Login';
 
 import CakeDetails from './CakeDetails';
 import Signup from './Signup';
+import React, {Suspense} from 'react';
 /* import {useState} from 'react';
 import Carousel from './Carousel';
 import Pagenotfound from './Pagenotfound';
@@ -19,29 +20,28 @@ import axios from "axios"
 import { connect } from 'react-redux';
 import Cart from './Cart';
 import Checkout from './Checkout';
-//import Test from './Forgot';
 import Forgot from './Forgot';
 
-
-
+//lazyloading admin
+var Suspendedadmin = React.lazy(()=>import('./Admin'))
 
 
 function App(props) {
 
   if(localStorage.token && !props.user){
     var token = localStorage.token
-    console.log("Mean user is already logged in")
+    //console.log("Mean user is already logged in")
     axios({
       method:'get',
-      url:'https://apibyashu.herokuapp.com/api/getuserdetails',
+      url:process.env.REACT_APP_BASE_URL + 'getuserdetails',
       headers:{
         authtoken:token
       }
     }).then((response)=>{
-      console.log("response from get user details api", response)
+      //console.log("response from get user details api", response)
 
       props.dispatch({
-        type:"INITIALISE_USER",
+        type:"LOGIN_SUCCESS",
         payload:response.data.data
     })
 
@@ -62,6 +62,14 @@ function App(props) {
         <Route path="/signup" exact component={Signup} />
         <Route path="/forgot" exact component={Forgot} />
         <Route path="/search" exact component={Search} />
+
+        {/* lazyloading admin */}
+        <Route path="/admin" exact >
+          <Suspense fallback={<div>Loading....</div>}>
+            <Suspendedadmin />
+          </Suspense>
+        </Route>
+
         <Route path="/cart" exact component={Cart} />
         <Route path="/checkout" component={Checkout}></Route>
         {/* {store.isloggedin? <Route path="/checkout" component={Checkout}></Route>: ''} */}

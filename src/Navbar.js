@@ -1,20 +1,20 @@
-import { Link, withRouter } from "react-router-dom";
-import {faSearch, faShoppingCart} from '@fortawesome/free-solid-svg-icons'
+import { Link, NavLink, withRouter } from "react-router-dom";
+import {faFastForward, faSearch, faShoppingCart} from '@fortawesome/free-solid-svg-icons'
 import {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios';
 
 function Navbar(props){
-  console.log("login detail ",props)
+  //console.log("login detail ",props)
 let [searchquery, setSearchquery] = useState()
 
-  var counter=0;
+  //var counter=0;
 
   let search=function(event){
     event.preventDefault();
     let url="/search?searchtext=" + document.getElementById('txtSearch').value;
-    console.log("url " + url)
+    //console.log("url " + url)
     props.history.push(url)
   }
 
@@ -23,12 +23,12 @@ let [searchquery, setSearchquery] = useState()
     var token = localStorage.token
         axios({
           method:'post',
-          url:'https://apibyashu.herokuapp.com/api/cakecart',
+          url:process.env.REACT_APP_BASE_URL + 'cakecart',
           headers:{
             authtoken:token
           }
         }).then((response)=>{
-          console.log("response from cakecart", response)
+          //console.log("response from cakecart", response)
 
           props.dispatch({
             type:"CART",
@@ -43,7 +43,7 @@ let [searchquery, setSearchquery] = useState()
         }, (error)=>{
       console.log("error from get user details api", error)
         })
-      },[props?.updatecart, props?.cart?.data?.length])
+      },[props?.updatecart,props?.loginstatus])
 
   /* let url ="";
    function search(event){
@@ -77,6 +77,7 @@ var logout = (event)=>{
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
+  {/* <NavLink className="nav-link" activeClassName="nav-link-active" style={{color:"red"}} exact to="/">My Cakeshop</NavLink> <br /> */}
   <Link to="/"><a className="navbar-brand">My Cakeshop</a></Link> <br />
   
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,11 +121,12 @@ var logout = (event)=>{
 Navbar=withRouter(Navbar)
 //mapstatetoprops
 export default connect(function(state,props){
-  console.log("....... state initialy", state)
+  //console.log("....... state initialy", state)
   return {
     user:state?.user?.name,
     cart:state?.cart,
     updatecart: state?.updatecart,
+    //placeorder: state?.placeorder,
     //if state then search user in state, if user then search name in user
     loginstatus:state?.isloggedin
   }

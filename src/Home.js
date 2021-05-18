@@ -11,13 +11,15 @@ import {useEffect, useState} from 'react';
 
 function Home(){
 let [cakes, setCakes] = useState([])
-let allcakesapi = "https://apibyashu.herokuapp.com/api/allcakes"
+//let allcakesapi = "https://apifromashu.herokuapp.com/api/allcakes"
+let allcakesapi = process.env.REACT_APP_BASE_URL + "allcakes"
+//console.log("URL by react app base url", process.env.REACT_APP_BASE_URL)
 useEffect(()=>{
   axios({
     method:"get",
     url:allcakesapi,
   },[]).then((response)=>{
-    console.log("response from all cakes api", response.data)
+    //console.log("response from all cakes api", response.data)
     setCakes(response.data.data)
   },(error)=>{
     console.log("error from all cakes api", error)

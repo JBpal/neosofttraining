@@ -6,6 +6,10 @@ import {Link} from 'react-router-dom'
 
 function Cart(props){
     
+    if(!props?.loginstatus){
+        props.history.push("/login")
+    }
+
  //let [total, setTotal] = useState(0)
  let setTotal = props?.cart?.data?.reduce((sum, {price})=>sum+price,0)
 
@@ -17,7 +21,7 @@ function Cart(props){
         //console.log("cake details...",cakecart)
     
         var token = localStorage.token
-            let removecakeapi="https://apibyashu.herokuapp.com/api/removecakefromcart"
+            let removecakeapi=process.env.REACT_APP_BASE_URL + "removecakefromcart"
             axios({
                 method:"post",
                 url:removecakeapi,
@@ -92,7 +96,7 @@ function Cart(props){
                      <div class="row">
                         <div className="col-sm-10"></div>
                         <div className="col-sm-2">
-                        <Link to="/checkout"><button type="button" class="button cart_button_checkout">Checkout</button></Link>
+                        <Link to="/checkout"><button type="button" class="btn btn-primary">Checkout</button></Link>
                         </div>
                     </div>
                      
@@ -113,7 +117,8 @@ export default connect(function(state,props)
 {
     return{
         cart:state?.cart,
-        user:state?.user?.email
+        user:state?.user?.email,
+        loginstatus: state["isloggedin"]
         
     }
 }

@@ -8,14 +8,14 @@ import axios from 'axios'
 
 
 function CakeDetails(props){
-
+    
   
 //to add data to cart
 let addtoCake = (cakedetails) =>{
-    console.log("cake details...",cakedetails) 
+    //console.log("cake details...",cakedetails) 
 
     var token = localStorage.token
-        let addcakeapi="https://apibyashu.herokuapp.com/api/addcaketocart/"
+        let addcakeapi=process.env.REACT_APP_BASE_URL + "addcaketocart/"
         axios({
             method:"post",
             url:addcakeapi,
@@ -47,10 +47,10 @@ let addtoCake = (cakedetails) =>{
 
     let [cakedetails, setCakedetails] = useState({})
     let params = useParams()
-    console.log("Params are ", params)
+    //console.log("Params are ", params)
     //alert(params.cakeid)
     useEffect(()=>{
-        let cakedetailsapi="https://apibyashu.herokuapp.com/api/cake/"+params.cakeid
+        let cakedetailsapi=process.env.REACT_APP_BASE_URL + "cake/"+params.cakeid
         axios({
             method:"get",
             url:cakedetailsapi
@@ -68,8 +68,7 @@ let addtoCake = (cakedetails) =>{
         <div className="jumbotron">
           <div className="row">
             <div className="col-md-6">
-            <img className="singleimage" src={cakedetails.image? cakedetails.image 
-              : 'https://www.jqueryscript.net/images/jQuery-Ajax-Loading-Overlay-with-Loading-Text-Spinner-Plugin.jpg' }  alt="just a test" />
+            <img className="singleimage" src={cakedetails.image}  alt="no image available" />
             </div>
             <div className="col-md-6">
             <h1 className="display-4">{cakedetails.name}</h1>
@@ -81,7 +80,7 @@ let addtoCake = (cakedetails) =>{
         {/* <p><b>Eggless:</b>{cakedetails.eggless === true? 'Yes' : 'No'} </p>
         <p><b>ratings:</b>{cakedetails.ratings} </p>
         <p><b>flavour:</b>{cakedetails.flavour} </p> */}
-        <button className="btn btn-primary" onClick={()=>addtoCake(cakedetails)}>Add to Cart</button>
+        {props.loginstatus && <button className="btn btn-primary" onClick={()=>addtoCake(cakedetails)}>Add to Cart</button>}
             </div>
           </div>
        
@@ -99,7 +98,9 @@ export default connect(function(state,props)
         cart:state?.cart,
         updatecart: state?.updatecart, */
         //if state then search user in state, if user then search name in user
-        loginstatus:state?.isloggedin
+        //loginstatus:state?.isloggedin,
+        loginstatus: state["isloggedin"]
+        
       }
 }
 )(CakeDetails)

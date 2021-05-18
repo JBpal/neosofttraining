@@ -12,7 +12,7 @@ function Search(props){
     console.log("parsed " , parsed);
 
 let [cakeresult, setCakes] = useState([])
-let searchcakesapi = "https://apibyashu.herokuapp.com/api/searchcakes?q="+parsed.searchtext
+let searchcakesapi = process.env.REACT_APP_BASE_URL + "searchcakes?q="+parsed.searchtext
 useEffect(()=>{
   axios({
     method:"get",

@@ -37,25 +37,25 @@ const Forgot=()=>{
     }
 
     let password = function(){
-        console.log("this is a test register", emaildata)
+        //console.log("this is a test register", emaildata)
         var form = document.getElementById('emailform');
         var errors = validateReg(form.elements)
         if(errors){
              SetformErrors(errors)
         }else{
          SetformErrors({})
-         console.log("checking siginup error", emaildata);
-            let apiUrl = "https://apibyashu.herokuapp.com/api/recoverpassword"
+         //console.log("checking siginup error", emaildata);
+            let apiUrl = process.env.REACT_APP_BASE_URL + "recoverpassword"
          axios({
                 url:apiUrl,
                 method:"post",
                 data:emaildata
             }).then((response)=>{
-                console.log("response form signup api",response.data);
+                //console.log("response form signup api",response.data);
             },(error)=>{
                 console.log("Error form signup api",error)
             })
-            console.log("...user details" ,emaildata)
+            //console.log("...user details" ,emaildata)
         }
         
     }
@@ -63,7 +63,7 @@ const Forgot=()=>{
     
         return(
             <div style={{"width":"50%","margin":"auto"}}>
-                <div>this is only a test</div>
+                <center><div>Forgot Password</div></center>
                 <form id="emailform">
                 <div className="form-group">
                     <label>Email</label>
